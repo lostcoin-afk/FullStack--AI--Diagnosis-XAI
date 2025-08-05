@@ -6,4 +6,4 @@ db = client["diagnosis_db"]
 db.users.delete_many({})
 db.visualisations.delete_many({})
 
-print("✅ All documents deleted from users and visualisations collections.")
+print("All documents deleted from users and visualisations collections.")
