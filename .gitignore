@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+myenv/
+env/
+ENV/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+
+# Logs and temp
+*.log
+*.tmp
+
+# IDE configs
+.vscode/
+.idea/
+
+# Uploads and generated images
+app/static/uploads/
+new_saved_visuals/

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diagnosis Result</title>
+</head>
+<body>
+    <h2>Diagnosis for {{ name }}</h2>
+    <p><strong>Result:</strong> {{ diagnosis }}</p>
+
+    <h3>Processed Image:</h3>
+    <img src="data:image/png;base64,{{ image_data }}" alt="Processed Image" style="max-width:500px;">
+
+    <br><br>
+    <a href="/">Upload Another</a>
+</body>
+</html>
