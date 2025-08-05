@@ -11,22 +11,19 @@ from captum.attr import IntegratedGradients
 from .utils import pil_image_to_base64
 from .hybrid_mobileNet_ViT import hybrid_model_return, get_class_labels_from_folder  # Your model definition
 
-# ─────────────────────────────────────────────────────────────
-# 🔧 Device Setup (Force CPU if needed)
+# Device Setup (Force CPU if needed)
 # ─────────────────────────────────────────────────────────────
 USE_CPU_ONLY = True  # Set True to avoid CUDA OOM
 device = torch.device("cpu" if USE_CPU_ONLY or not torch.cuda.is_available() else "cuda")
 
-# ─────────────────────────────────────────────────────────────
-# 🔧 Load Model Once
+# Load Model Once
 # ─────────────────────────────────────────────────────────────
 model = hybrid_model_return()
 model.load_state_dict(torch.load("weights/hybridMobielNet-ViT-Pipeline.pth", map_location=device))
 model.to(device)
 model.eval()
 
-# ─────────────────────────────────────────────────────────────
-# 🔧 Image Transform (Same as Training)
+# Image Transform (Same as Training)
 # ─────────────────────────────────────────────────────────────
 transform = transforms.Compose([
     transforms.Resize((224, 224)),
@@ -37,16 +34,14 @@ CLASS_LABELS = get_class_labels_from_folder()
 
 
 
-# ─────────────────────────────────────────────────────────────
-# 🔧 Normalize Tensor for Visualization
+# Normalize Tensor for Visualization
 # ─────────────────────────────────────────────────────────────
 def tensor_to_np(img_tensor):
     img_tensor = img_tensor.squeeze(0).cpu().detach()
     img_tensor = (img_tensor - img_tensor.min()) / (img_tensor.max() - img_tensor.min())
     return img_tensor.numpy()
 
-# ─────────────────────────────────────────────────────────────
-# 🔧 Attribution Map via Captum
+# Attribution Map via Captum
 # ─────────────────────────────────────────────────────────────
 def get_attributions(model, input_img, label_idx):
     input_img = input_img.to(device).unsqueeze(0).requires_grad_()
@@ -55,8 +50,7 @@ def get_attributions(model, input_img, label_idx):
     attributions = attributions.sum(dim=1, keepdim=True)
     return attributions
 
-# ─────────────────────────────────────────────────────────────
-# 🔧 Overlay Attribution on Original Image
+# Overlay Attribution on Original Image
 # ─────────────────────────────────────────────────────────────
 def overlay_attribution(orig_img, attribution):
     orig_np = tensor_to_np(orig_img)
@@ -75,8 +69,7 @@ def overlay_attribution(orig_img, attribution):
     buf.seek(0)
     return Image.open(buf)
 
-# ─────────────────────────────────────────────────────────────
-# 🔧 Main Inference Function
+# Main Inference Function
 # ─────────────────────────────────────────────────────────────
 def run_inference(base64_img):
     # Step 1: Decode base64 to PIL
